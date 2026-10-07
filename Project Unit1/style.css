@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* =========================================================
+   GENERAL
+========================================================= */
+.stApp {
+    background: #fff !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.block-container,
+[data-testid="stMainBlockContainer"] {
+    padding: 0 !important;
+    max-width: 100% !important;
+}
+header, footer { visibility: hidden !important; }
+button[title="View fullscreen"],
+[data-testid="StyledFullScreenButton"] { display: none !important; }
+
+/* =========================================================
+   COLUMNS
+========================================================= */
+div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !important; }
+
+:is([data-testid="column"], [data-testid="stColumn"]) {
+    padding: 0 !important;
+    min-width: 0 !important;
+}
+
+/* =========================================================
+   LEFT SIDE (image)
+========================================================= */
+:is([data-testid="column"], [data-testid="stColumn"]):first-child {
+    position: relative !important;
+    overflow: hidden !important;
+}
+:is([data-testid="column"], [data-testid="stColumn"]):first-child img {
+    width: 100% !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+    display: block;
+}
+[data-testid="stImage"] { position: relative; }
+[data-testid="stImage"]::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(25,14,10,.7) 100%);
+}
+
+/* logo */
+:is([data-testid="column"], [data-testid="stColumn"]):first-child::before {
+    content: " ";
+    position: absolute;
+    top: 24px;
+    left: 40px;
+    z-index: 20;
+    height: 80px;
+    padding-left: 90px;
+    background: url("https://cdn.imageurlgenerator.com/uploads/3badd913-5570-4e2f-a204-e4386c2d37ea.png") no-repeat left top / 80px 80px;
+}
+
+/* text on the image */
+.left-content {
+    position: absolute !important;
+    left: 48px !important;
+    bottom: 48px !important;
+    right: 48px !important;
+    z-index: 20 !important;
+    color: #fff !important;
+}
+.small-text { display: none !important; }
+.left-content h1 {
+    margin: 0 !important; padding: 0 !important;
+    color: #fff !important;
+    font-family: 'Instrument Serif', Georgia, serif !important;
+    font-size: 54px !important;
+    line-height: 1.05 !important;
+    font-weight: 400 !important;
+    letter-spacing: -.01em;
+}
+.left-content h1 i { color: #f4e5c4 !important; }
+
+/* =========================================================
+   RIGHT SIDE (form)
+========================================================= */
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 0 6% !important;
+}
+/* the form has a fixed comfortable width and is centered */
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) [data-testid="stVerticalBlock"] {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin: 0 auto !important;
+    gap: 14px !important;
+}
+
+/* welcome text */
+.welcome-text { width: 100%; margin: 0 0 18px !important; }
+.welcome-small {
+    color: #b4772b !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 4px;
+    margin: 0 0 10px !important;
+}
+.welcome-text h2 {
+    color: #173f32 !important;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    font-family: 'Instrument Serif', Georgia, serif !important;
+    font-size: 60px !important;
+    line-height: 1.05 !important;
+    font-weight: 400 !important;
+    letter-spacing: -.01em;
+}
+.welcome-text p:last-child {
+    color: #5d6b66 !important;
+    font-size: 17px !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   INPUTS
+========================================================= */
+[data-testid="stTextInput"] label p {
+    color: #123f35 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+/* outer box (stable selector) */
+[data-testid="stTextInputRootElement"] {
+    background: #fff !important;
+    border: 1px solid #d9dedb !important;
+    border-radius: 30px !important;
+    min-height: 56px !important;
+    overflow: hidden;
+}
+[data-testid="stTextInputRootElement"]:focus-within {
+    border-color: #176247 !important;
+    box-shadow: 0 0 0 1px #176247 !important;
+}
+/* inner layers must be white / transparent (fixes the dark boxes) */
+[data-testid="stTextInputRootElement"] div[data-baseweb="input"],
+[data-testid="stTextInputRootElement"] div[data-baseweb="base-input"] {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 30px !important;
+}
+[data-testid="stTextInputRootElement"] input {
+    height: 54px !important;
+    font-size: 16px !important;
+    padding-left: 22px !important;
+    background: transparent !important;
+    color: #173f32 !important;
+    -webkit-text-fill-color: #173f32 !important;
+}
+[data-testid="stTextInputRootElement"] input::placeholder { color: #a0adb0 !important; }
+[data-testid="stTextInputRootElement"] svg { color: #5d6b66 !important; }
+
+/* "Forgot password?" next to the Password label */
+:is(.stElementContainer, .element-container):has(.forgot) { display: none !important; }
+:is(.stElementContainer, .element-container):has(input[type="password"]):has(+ :is(.stElementContainer, .element-container) .forgot) { position: relative; }
+:is(.stElementContainer, .element-container):has(input[type="password"]):has(+ :is(.stElementContainer, .element-container) .forgot)::after {
+    content: "Forgot password?";
+    position: absolute; top: 2px; right: 0;
+    color: #a06b25; font-size: 14px; font-weight: 600;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+[data-testid="stButton"] button p {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+}
+
+/* main button (Login / Create account): full width */
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) :is(.stElementContainer, .element-container):has([data-testid="stButton"]),
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) [data-testid="stButton"] {
+    width: 100% !important;
+}
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) [data-testid="stButton"] button {
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    border-radius: 30px !important;
+    background: #146348 !important;
+    color: #fff !important;
+    border: none !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 8px 18px rgba(20,99,72,.2) !important;
+}
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) [data-testid="stButton"] button:hover {
+    background: #0f513b !important;
+}
+
+/* text under the button */
+.account-text {
+    text-align: center;
+    color: #708086 !important;
+    font-size: 16px !important;
+    margin: 14px 0 -6px !important;
+}
+
+/* link-style buttons (Create an account / Login) */
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) :is(.st-key-create-account, .st-key-login-account) {
+    display: flex; flex-direction: column; align-items: center;
+}
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) :is(.st-key-create-account, .st-key-login-account) [data-testid="stButton"] {
+    width: auto !important;
+    display: flex; justify-content: center;
+}
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) :is(.st-key-create-account, .st-key-login-account) [data-testid="stButton"] button {
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #075d47 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+}
+:is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) :is(.st-key-create-account, .st-key-login-account) [data-testid="stButton"] button:hover {
+    color: #0e8062 !important;
+}
+
+/* =========================================================
+   DESKTOP: image 45% | form 55%
+========================================================= */
+@media (min-width: 801px) {
+    :is([data-testid="column"], [data-testid="stColumn"]):first-child { flex: 1 1 45% !important; width: 45% !important; }
+    :is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) { flex: 1 1 55% !important; width: 55% !important; }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+@media (max-width: 800px) {
+    :is([data-testid="column"], [data-testid="stColumn"]) { flex: 1 1 100% !important; width: 100% !important; min-width: 100% !important; }
+    :is([data-testid="column"], [data-testid="stColumn"]):first-child img { height: 36vh !important; }
+    :is([data-testid="column"], [data-testid="stColumn"]):first-child::before { left: 24px; }
+    .left-content { left: 24px !important; bottom: 20px !important; }
+    .left-content h1 { font-size: 34px !important; }
+    :is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) { padding: 32px 24px !important; }
+    .welcome-text h2 { font-size: 44px !important; }
+}
