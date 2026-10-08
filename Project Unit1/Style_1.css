@@ -153,3 +153,13 @@ html, body, p, span, div, label, button, li {
     .st-key-hero h1 { font-size: 34px; }
     [data-testid="stImage"] img, .no-image { height: 240px; }
 }
+:is([data-testid="column"], [data-testid="stColumn"]):first-child::before {
+    content: " ";
+    position: absolute;
+    top: 60px;
+    left: 40px;
+    z-index: 20;
+    height: 80px;
+    padding-left: 90px;
+    background: url("https://cdn.imageurlgenerator.com/uploads/3badd913-5570-4e2f-a204-e4386c2d37ea.png") no-repeat left top / 80px 80px;
+}
