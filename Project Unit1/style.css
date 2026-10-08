@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-/* =========================================================
+/* 
    GENERAL
-========================================================= */
+ */
 .stApp {
     background: #fff !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
@@ -16,9 +16,9 @@ header, footer { visibility: hidden !important; }
 button[title="View fullscreen"],
 [data-testid="StyledFullScreenButton"] { display: none !important; }
 
-/* =========================================================
+/* 
    COLUMNS
-========================================================= */
+ */
 div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !important; }
 
 :is([data-testid="column"], [data-testid="stColumn"]) {
@@ -26,9 +26,9 @@ div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !imp
     min-width: 0 !important;
 }
 
-/* =========================================================
+/* 
    LEFT SIDE (image)
-========================================================= */
+ */
 :is([data-testid="column"], [data-testid="stColumn"]):first-child {
     position: relative !important;
     overflow: hidden !important;
@@ -50,8 +50,8 @@ div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !imp
 :is([data-testid="column"], [data-testid="stColumn"]):first-child::before {
     content: " ";
     position: absolute;
-    top: 24px;
-    left: 40px;
+    top: 10px;
+    left: 20px;
     z-index: 20;
     height: 80px;
     padding-left: 90px;
@@ -79,9 +79,9 @@ div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !imp
 }
 .left-content h1 i { color: #f4e5c4 !important; }
 
-/* =========================================================
+/* 
    RIGHT SIDE (form)
-========================================================= */
+ */
 :is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) {
     display: flex !important;
     flex-direction: column !important;
@@ -122,9 +122,9 @@ div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !imp
     margin: 0 !important;
 }
 
-/* =========================================================
+/* 
    INPUTS
-========================================================= */
+ */
 [data-testid="stTextInput"] label p {
     color: #123f35 !important;
     font-size: 15px !important;
@@ -169,9 +169,9 @@ div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !imp
     color: #a06b25; font-size: 14px; font-weight: 600;
 }
 
-/* =========================================================
+/* 
    BUTTONS
-========================================================= */
+ */
 [data-testid="stButton"] button p {
     font-size: inherit !important;
     font-weight: inherit !important;
@@ -230,17 +230,17 @@ div[data-testid="stHorizontalBlock"] { gap: 0 !important; min-height: 100vh !imp
     color: #0e8062 !important;
 }
 
-/* =========================================================
+/* 
    DESKTOP: image 45% | form 55%
-========================================================= */
+ */
 @media (min-width: 801px) {
     :is([data-testid="column"], [data-testid="stColumn"]):first-child { flex: 1 1 45% !important; width: 45% !important; }
     :is([data-testid="column"], [data-testid="stColumn"]):nth-child(2) { flex: 1 1 55% !important; width: 55% !important; }
 }
 
-/* =========================================================
+/* 
    MOBILE
-========================================================= */
+ */
 @media (max-width: 800px) {
     :is([data-testid="column"], [data-testid="stColumn"]) { flex: 1 1 100% !important; width: 100% !important; min-width: 100% !important; }
     :is([data-testid="column"], [data-testid="stColumn"]):first-child img { height: 36vh !important; }
