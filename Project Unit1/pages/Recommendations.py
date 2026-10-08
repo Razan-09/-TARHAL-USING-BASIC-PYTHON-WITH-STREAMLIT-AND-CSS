@@ -2,7 +2,6 @@ import streamlit as st
 from classes import TripPrefrences
 
 
-
 # Page Configuration
 
 st.set_page_config(
@@ -11,164 +10,86 @@ st.set_page_config(
 )
 
 
-#css desgin
-st.markdown("""
-<style>
+# Load CSS from c.css (must be in the same folder as this file)
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap');
-
-html, body, p, span, div, label, button, li {
-    font-family: 'Manrope', sans-serif;
-}
-
-/* Background */
-.stApp {
-    background-color: #F3F1EA;
-}
-
-.stMainBlockContainer {
-    max-width: 1200px;
-    padding-top: 30px;
-}
-
-/* Hero */
-.st-key-hero {
-    background: linear-gradient(135deg, #194B3A, #1A5A43);
-    border-radius: 36px;
-    padding: 50px 40px;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.st-key-hero h1 {
-    color: white;
-    font-size: 52px;
-    font-weight: 800;
-    padding: 0;
-}
-
-.st-key-hero p {
-    color: #D9E3DC;
-    font-size: 17px;
-}
+def load_css(file_name):
+    with open(file_name, encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 
-/* Trip Information */
-.st-key-trip {
-    background-color: white;
-    border-radius: 28px;
-    padding: 28px;
-    margin-bottom: 40px;
-    box-shadow: 0 15px 40px rgba(23, 56, 45, 0.08);
-}
-
-.st-key-trip h2 {
-    color: #17382D;
-    font-size: 28px;
-    font-weight: 800;
-}
+load_css("c.css")
 
 
-/* Metrics */
-[data-testid="stMetric"] {
-    background-color: #FAF9F5;
-    border: 1px solid #E4E2DA;
-    border-radius: 18px;
-    padding: 20px;
-}
-
-[data-testid="stMetricLabel"] {
-    color: #1A5A43;
-    font-weight: 700;
-}
-
-[data-testid="stMetricValue"] {
-    color: #17382D;
-    font-weight: 800;
-}
+def norm(text):
+    """lowercase + remove spaces so 'Cafés' == 'cafés'"""
+    return str(text).lower().strip()
 
 
-/* Category */
-.st-key-category {
-    color: #17382D;
-}
+# Hero
+
+with st.container(key="hero"):
+    st.markdown(
+        '<div class="eyebrow">Your journey, thoughtfully planned</div>'
+        '<h1>Where will Saudi<br>take you next?</h1>'
+        '<p class="sub">Tell us how you like to travel, and we’ll match you '
+        'with places and experiences made for your moment.</p>',
+        unsafe_allow_html=True
+    )
 
 
-/* Place Cards */
-[class*="st-key-place_"] {
-    background-color: white;
-    border-radius: 28px;
-    padding: 18px;
-    margin-bottom: 30px;
-    box-shadow: 0 15px 40px rgba(23, 56, 45, 0.08);
-}
+# User choices
 
-[class*="st-key-place_"] h3 {
-    color: #17382D;
-    font-size: 21px;
-    font-weight: 800;
-    padding-top: 8px;
-}
+with st.container(key="choices"):
 
+    city = st.radio(
+        "Choose your city",
+        ["Abha", "Riyadh", "Jeddah", "AlUla"],
+        index=None,
+        horizontal=True,
+        key="city"
+    )
 
-/* Images */
-[data-testid="stImage"] img {
-    width: 100%;
-    height: 230px;
-    object-fit: cover;
-    border-radius: 20px;
-}
+    st.markdown("<hr>", unsafe_allow_html=True)
 
+    c1, c2, c3 = st.columns([1, 1.1, 1.6])
 
-/* Category title */
-.category-title {
-    color: #17382D;
-    font-size: 34px;
-    font-weight: 800;
-    margin-top: 35px;
-    margin-bottom: 20px;
-}
+    with c1:
+        budget = st.pills(
+            "Your budget",
+            ["Low", "Medium", "High"]
+        )
 
+    with c2:
+        travel_type = st.pills(
+            "Traveling with",
+            ["Solo", "Friends", "Family"]
+        )
 
-/* Footer */
-.footer {
-    text-align: center;
-    color: #1A5A43;
-    font-size: 17px;
-    font-weight: 600;
-    padding: 30px;
-}
+    with c3:
+        experience = st.pills(
+            "Experience type",
+            ["Tourism", "Entertainment", "Restaurants", "Cafés"]
+        )
+
+    with st.container(key="cta"):
+        discover = st.button("Discover My Plan →")
 
 
-/* Phone */
-@media (max-width: 800px) {
+# Wait until the user chooses everything and presses the button
 
-    .st-key-hero h1 {
-        font-size: 34px;
-    }
+if discover:
+    st.session_state["show_results"] = True
 
-    [data-testid="stImage"] img {
-        height: 200px;
-    }
+if city is None or budget is None or travel_type is None:
+    st.info("Choose your city, budget and travel type to see your recommendations.")
+    st.stop()
 
-}
-
-</style>
-""", unsafe_allow_html=True)
+if not st.session_state.get("show_results"):
+    st.info("Press “Discover My Plan” to see your recommendations.")
+    st.stop()
 
 
-
-# Get user preferences from session state
-
-
-city = st.session_state.city
-budget = st.session_state.budget
-travel_type = st.session_state.travel_type
-
-
-
-# Get Recommendations based on user preferences
-
+# Get Recommendations based on user choices
 
 trip = TripPrefrences(
     city,
@@ -178,35 +99,29 @@ trip = TripPrefrences(
 
 recommendations = trip.check_choses()
 
-
-#using containers to organize the layout of the page
-
-
-with st.container(key="hero"):
-
-    st.markdown(
-        "<h1>Tarhal</h1>",
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        "<p>Places selected specially for your journey</p>",
-        unsafe_allow_html=True
-    )
-
+# Filter by the chosen experience type (Tourism / Cafés / ...)
+if experience and recommendations:
+    wanted = norm(experience)
+    filtered = {
+        cat: places for cat, places in recommendations.items()
+        if norm(cat) and (wanted in norm(cat) or norm(cat) in wanted)
+    }
+    if not filtered:
+        st.warning(
+            f"No '{experience}' category found for these choices. "
+            f"Available categories: {', '.join(map(str, recommendations.keys()))}"
+        )
+        st.stop()
+    recommendations = filtered
 
 
 # Your Trip header and metrics
 
-
 with st.container(key="trip"):
 
-    st.markdown(
-        "<h2>Your Trip</h2>",
-        unsafe_allow_html=True
-    )
+    st.markdown("<h2>Your Trip</h2>", unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
         st.metric("Destination", city)
@@ -217,41 +132,44 @@ with st.container(key="trip"):
     with col3:
         st.metric("Travel Type", travel_type)
 
+    with col4:
+        st.metric("Experience", experience or "All")
 
-# Images
 
+# Images (keyed by city name; you can also add a specific place name)
 
 images = {
-
-    # Riyadh
-    "KAFD": "Recommendations.image/KADF.png",
-    "Via Riyadh": "via.riyadh.png",
-    "Diryah": "Diryah.png",
-    "Six Flags": "sixflags.png",
-    "Wonder graden": "wondergardn.png",
-    "BLVD city": "blvd.png",
-    "COOL ARENA": "coolarena.png",
-
-    # Abha
-    "Green Mountain": "greenmountain.png",
-    "Al-Soudah Mountain": "soudah.png",
-    "Fog Walkway": "fogwalk.png",
-    "Abha Dam Lake": "abhadam.png",
-
-    # Jeddah
-    "Albalad": "albald.png",
-    "Jeddah Corniche": "jeddahcou.png",
-    "Fakieh Aquarium": "sea.png",
-
-    # AlUla
-    "Hegra": "alu.png",
-    "Elephant rock": "ele.png",
-    "AlUla oasis": "oa.png",
+    "Riyadh": "images/Riyadh.jpg",
+    "Jeddah": "images/Jeddah.jpg",
+    "Abha": "images/Abha.jpg",
+    "AlUla": "images/AlUla.jpg",
 }
 
+# False = the city image shows once as a banner.
+# True  = the city image also shows on every place card.
+SHOW_CITY_IMAGE_ON_CARDS = False
 
-# Recommendations 
 
+def show_image(path):
+    """Show the image only if the file really exists (no errors if missing)."""
+    try:
+        st.image(path, use_container_width=True)
+    except Exception:
+        pass
+
+
+# City banner (one image for the chosen city)
+
+if city in images:
+    with st.container(key="banner"):
+        show_image(images[city])
+
+
+
+# Show Recommendations
+
+if not recommendations:
+    st.warning("No recommendations found for these choices.")
 
 for category, places in recommendations.items():
 
@@ -264,6 +182,7 @@ for category, places in recommendations.items():
 
     for i, place in enumerate(places):
 
+        # Skip empty names
         if not place:
             continue
 
@@ -271,27 +190,20 @@ for category, places in recommendations.items():
 
             with st.container(key=f"place_{category}_{i}"):
 
-                # If the place has an image
-                if place in images:
+                # A specific place image wins, otherwise the city image (optional)
+                place_img = images.get(place) or (
+                    images.get(city) if SHOW_CITY_IMAGE_ON_CARDS else None
+                )
+                if place_img:
+                    show_image(place_img)
 
-                    st.image(
-                        images[place],
-                        use_container_width=True
-                    )
-
-                    st.subheader(place)
-
-                # If the place does not have an image
-                else:
-
-                    st.subheader(place)
-
+                st.subheader(place.strip())
+                st.caption(f"{city} · {category}")
 
 
 # Footer
 
-
 st.markdown(
-    '<div class="footer">Enjoy your journey with Tarhal ✈️</div>',
+    '<div class="footer">Enjoy your journey with Tarhal </div>',
     unsafe_allow_html=True
 )
